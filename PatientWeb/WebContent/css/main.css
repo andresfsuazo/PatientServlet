@@ -13,11 +13,11 @@ body {
     }
     
     .sign {
-        padding-top: 40px;
+        padding-right: 10px;
         color: #3faab5;
         font-family: 'Ubuntu', sans-serif;
         font-weight: bold;
-        font-size: 23px;
+        font-size: 35px;
     }
     
     .username {

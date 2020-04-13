@@ -68,6 +68,25 @@ body{
   font-size: 18px;
 }
 
+.optionBots {
+   padding-top: 0px;
+   padding-right: 10px;
+   padding-left: 10px;
+   color: #3faab5;
+   font-family: 'Ubuntu', sans-serif;
+   font-weight: bold;
+   font-size: 23px;
+}
+
+.optionBots2 {
+   padding-top: 0px;
+   padding-right: 10px;
+   color: #3faab5;
+   font-family: 'Ubuntu', sans-serif;
+   font-weight: bold;
+   font-size: 15px;
+}
+
 .submit {
    cursor: pointer;
    border-radius: 5em;
@@ -80,11 +99,22 @@ body{
 }
     
 .selectedTitle{
-  padding-bottom: 15px;
   color: #fff;
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
   font-size: 25px;
+}
+
+html{
+  min-height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  overflow: auto;
+  margin: 0;
+  min-height: 100%;
 }
 
 label {
@@ -92,11 +122,25 @@ label {
     text-align:right;
     padding-right:100px;
 }
+
 .top_container {
   width: 80%;
-  height: 80%;
+  height: 100%;
   margin: auto;
   padding: 10px;
+}
+
+.top_container2 {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.bottom-one {
+  width: 50%;
+  height: 200px;
+  margin: auto;
+  padding-top:175px;
 }
 
 .one {
@@ -108,6 +152,18 @@ label {
 .two {
   margin-left: 45%;
   height: 200px;
+}
+
+.one1 {
+  width: 60%;
+  height: 200px;
+  float: left;
+}
+
+.two2 {
+  margin-left: 55%;
+  height: 200px;
+  padding-bottom: 25px;
 }
 
 .field {
