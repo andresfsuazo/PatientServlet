@@ -41,12 +41,15 @@ public class HelloServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     
+    //Loads patient collection data
+    //Creates a string with html tags to create a table filled with patient data to display
     private String loadData() {
     	
 		String labelValue="";
 		String[] data = patients.toSortedStringArray();
 		System.out.println(patients.size());
         
+		//Sorround each value with html tags for table rows
 		for(int i=0;i<data.length;i++){
         	String[] temp = data[i].split(",");
         	//System.out.println(data[i]);
@@ -62,11 +65,12 @@ public class HelloServlet extends HttpServlet {
 		return labelValue;
     }
     
+    //Loads username and password pairs from csv file
     private String loadUsers() {
     	
     	webUsers = new HashMap<String, String>();
-    	File file = new File("C:\\Users\\Andres Suazo\\Desktop\\Desktop Folders\\Java Class\\PatientServlet\\PatientWeb\\WebContent\\users.csv");
-		
+    	File file = new File(this.getServletContext().getRealPath("/users.csv"));
+    	//Read file line by line and add value pairs to user hashmap
 		try{
         	
 			Scanner input = new Scanner(file);
@@ -86,6 +90,7 @@ public class HelloServlet extends HttpServlet {
 		return "Users Loaded";
     }
     
+    //Utility function to check if entered credentials are in hashmap
     private boolean exists(HashMap<String, String> map, String key, String value) {
     	boolean toreturn = false;
     	if(map.get(key) != null) {
@@ -98,30 +103,41 @@ public class HelloServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("Submit")!=null){
 			System.out.println(loadUsers());
+			
+			//Get username and password text entries
 			String username = request.getParameter("username");
             String password = request.getParameter("password");
-                  
+            
+            //If user is authenticated, load main page
             if(exists(webUsers, username, password)) {
             
-            	patients.loadPatients("C:\\Users\\Andres Suazo\\Desktop\\Desktop Folders\\Java Class\\PatientServlet\\PatientWeb\\data.csv");
+            	//Load patients from data file
+            	patients.loadPatients(this.getServletContext().getRealPath("/data.csv"));
     			String label="patientData";
+    			
+    			//Create table to be displayed with patient data
     			String labelValue=loadData();
     	        
     			request.setAttribute(label,labelValue); 
-    			 	 
+    			
+    			//Go to main page
     			RequestDispatcher rd=request.getRequestDispatcher("/Home.jsp");
     			rd.forward(request,response);
             }
+            //Go back to login
             else {
-            	response.getWriter().append("<br>Denied");
+            	RequestDispatcher rd=request.getRequestDispatcher("/index.html");
+    			rd.forward(request,response);  //forwarded to login
             }
             
 		}
+		//When remove patient is pressed
 		else if(request.getParameter("Remove")!=null)
 		{
-
+			//Get current id in spinner
 			String id = request.getParameter("patientID");
 			patients.removePatient(id);
+			//Recreate data table with changes
 			String labelValue = loadData();
 			String label="patientData";
 
@@ -130,6 +146,8 @@ public class HelloServlet extends HttpServlet {
 			rd.forward(request,response);
 			
 		}
+		//When add patient is pressed
+		//Not finished
 		else if(request.getParameter("Add")!=null)
 		{	
 			System.out.println("Add Called");
@@ -139,6 +157,8 @@ public class HelloServlet extends HttpServlet {
 			System.out.println(filePart);
 
 			//patients.addFromWebFile(inputFile);
+			
+			//Recreate data table with changes
 			String labelValue = loadData();
 			String label="patientData";
 
@@ -147,10 +167,15 @@ public class HelloServlet extends HttpServlet {
 			rd.forward(request,response);
 
 		}
+		//When edit patient is pressed
 		else if(request.getParameter("Edit")!=null)
 		{	
+			//Get current id in spinner
 			String id = request.getParameter("patientID");
+			//Get the selected radio button (CR or DP)
 			String result = request.getParameter("result");
+			
+			//Set the patients result and reload data table
 			patients.setResultForPatient(id, result);
 			String labelValue = loadData();
 			String label="patientData";
@@ -160,6 +185,8 @@ public class HelloServlet extends HttpServlet {
 			rd.forward(request,response);
 			
 		}
+		//If submit is not recognized, go back to login
+		//Used by logout button
 		else {
 			RequestDispatcher rd=request.getRequestDispatcher("/index.html");
 			rd.forward(request,response);  //forwarded to welcome.jsp

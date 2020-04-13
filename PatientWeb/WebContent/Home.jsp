@@ -9,6 +9,7 @@
 </head>
 <body>
 <script>
+//Function hides and shows Add,Remove,Edit areas one at a time
 function switchDiv(id){
 	div1 = document.getElementById('1');
 	div2 = document.getElementById('2');
@@ -22,7 +23,8 @@ function switchDiv(id){
     
     
 }
-
+//Function used in the main page
+//Searched the displayed table for the current id on spinner and selects that entry
 function searchTable() {
     var input, filter, found, table, tr, td, i, j;
     input = document.getElementById("myInput");
@@ -38,6 +40,7 @@ function searchTable() {
         	found = false;
         }
     }
+    //Inserts the selected patient data on the Current Selection area
     if (found) {
         document.getElementById('currentID').innerHTML = "" + td[0].innerHTML;
         document.getElementById('currentP').innerHTML =  "" + td[1].innerHTML;
@@ -46,13 +49,17 @@ function searchTable() {
         document.getElementById('currentP2').innerHTML = "" + td[4].innerHTML;
         document.getElementById('currentComplete').innerHTML = "" + td[0].innerHTML + " " + td[1].innerHTML + " " + td[2].innerHTML + " " + td[3].innerHTML + " " + td[4].innerHTML;
         found = false;
-    } else {
+    }
+    //If the id is not found, alert the user
+    else 
+    {
         alert("not found");
     }
     
 }
 
 </script>
+	<!-- Logout Button -->
 	<form class="login" action="HelloServlet" method="get">
 		<div style="padding-left: 15px; padding-top: 15px;">
 			<input class = "optionBots2" type="Submit" value="LOGOUT" name=""/>
@@ -61,6 +68,7 @@ function searchTable() {
 	<h1>Patient Manager</h1>
 	<form class="login" action="HelloServlet" method="get">
 	<section class="top_container">
+		<!-- Division with the patient data table -->
 		<div class = "one">
 		 	<div class="tbl-header">
 		    	<table cellpadding="0" cellspacing="0" border="0">
@@ -75,6 +83,7 @@ function searchTable() {
 			      </thead>
 			    </table>
 		  	</div>
+		  	<!-- Table contest is a string sent from servlet -->
 			<div class="tbl-content" id='myTable'>
 				<table cellpadding="0" cellspacing="0" border="0">
 			    	<tbody>
@@ -86,6 +95,7 @@ function searchTable() {
 				</table>
 			</div>
 		</div>
+		<!-- Division that displays current selection -->
 		<div class = "two">
 			<p class="selectedTitle" align="center">Current Selection</p>
 			<section class="top_container2">
@@ -111,17 +121,22 @@ function searchTable() {
 			</div>
 		</div>
 	</section>
+	<!-- Contains Edit, Remove and Add options -->
 	<section class="top_container">
+		<!-- Button to switch between options -->
 		<div class = "bottom-one" align="center">
 			<div class = "field" align="center" style="padding-left: 100px;" >
 					<input class = "optionBots" type="button" value="Add" name="Add" onclick="switchDiv('1')"/>
 					<input class = "optionBots" type="button" value="Edit" name="Edit" onclick="switchDiv('2')"/>
 					<input class = "optionBots" type="button" value="Remove" name="Remove" onclick="switchDiv('3')"/>
 			</div>
+			<!-- Add division -->
 			<div id="1" class = "field" style="display:none; padding-top: 15px; padding-left: 100px;" align="center">	
     			<input type="file" value="Select File" id="Select_File" accept=".csv" name="Select_File">
     			<input class = "optionBots2" type="Submit" value="Submit" name="Add" />
 			</div>
+			<!-- Edit division -->
+			<!-- Calls edit section of servlet -->
 			<div id="2" class = "field" style="padding-top: 15px; padding-left: 100px;" align="center">
 		    	<input type="radio" id="CR" name="result" value="CR">
 		    	<label for="CR" class="selecetd" style="font-size : 18px; padding-right: 30px; padding-left: 0px;">CR</label>
@@ -129,6 +144,8 @@ function searchTable() {
 		    	<label for="DP" class="selecetd" style="font-size : 18px; padding-right: 30px; padding-left: 0px;">DP</label>
 				<input class = "optionBots2" type="Submit" value="Submit" name="Edit" />
 			</div>
+			<!-- Remove division -->
+			<!-- Calls remove section of servlet -->
 			<div id="3" class = "field" style="display:none; padding-top: 15px; padding-left: 100px;" align="center">
 		    	<label id="currentComplete" style="font-size : 18px; padding-right: 30px; padding-left: 0px;" class="selecetd">Select Patient</label>
 				<input class = "optionBots2" type="Submit" value="Submit" name="Remove" />
