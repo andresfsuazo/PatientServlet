@@ -1,7 +1,10 @@
 package PatientServlet;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Scanner;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
+import patientManager.Patient;
 import patientManager.PatientCollection;
 
 /**
@@ -21,6 +24,7 @@ public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//private PatientCollection patients;
 	private CollectionExtension patients;
+	private HashMap<String, String> webUsers;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -58,12 +62,46 @@ public class HelloServlet extends HttpServlet {
 		return labelValue;
     }
     
+    private String loadUsers() {
+    	
+    	webUsers = new HashMap<String, String>();
+    	File file = new File("C:\\Users\\Andres Suazo\\Desktop\\Desktop Folders\\Java Class\\PatientServlet\\PatientWeb\\WebContent\\users.csv");
+		
+		try{
+        	
+			Scanner input = new Scanner(file);
+            while(input.hasNextLine()){
+                String line = input.nextLine();
+                String[] pairs = line.split(",");
+                webUsers.put(pairs[0], pairs[1]);
+            }
+
+            input.close();
+        }
+        catch (FileNotFoundException exception) {
+        	return "File not found!";
+        }
+		
+		
+		return "Users Loaded";
+    }
+    
+    private boolean exists(HashMap<String, String> map, String key, String value) {
+    	boolean toreturn = false;
+    	if(map.get(key) != null) {
+    		toreturn = (map.get(key).equals(value));
+    	}
+        
+        return toreturn;
+    }
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("Submit")!=null){
+			System.out.println(loadUsers());
 			String username = request.getParameter("username");
             String password = request.getParameter("password");
                   
-            if(true) {
+            if(exists(webUsers, username, password)) {
             
             	patients.loadPatients("C:\\Users\\Andres Suazo\\Desktop\\Desktop Folders\\Java Class\\PatientServlet\\PatientWeb\\data.csv");
     			String label="patientData";
